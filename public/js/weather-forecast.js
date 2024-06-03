@@ -72,13 +72,42 @@ $(document).ready(function () {
 });
 
 function init() {
-    let city = getWithExpiry('city');
+    // let city = getWithExpiry('city');
 
-    if (city) {
-        callAjax(city);
-    } else {
-        callAjax("London");
-    }
+    // if (city) {
+    //     callAjax(city);
+    // } else {
+    //     callAjax("London");
+    // }
+
+    $.ajax({
+        url: "/weather-forecast",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            let data = response.data;
+
+            let forecastDay = data.customForecastDay;
+            $("#location, #date, #temperature, #wind, #humidity, #condition-icon, #condition-text").hide();
+            $("#location").text(data.locationName).fadeIn("slow");
+            $("#date").text(forecastDay[0].date).fadeIn("slow");
+            $("#temperature").text(forecastDay[0].avgTempC).fadeIn("slow");
+            $('#wind').text(forecastDay[0].maxWindMpS).fadeIn("slow");
+            $('#humidity').text(forecastDay[0].humidity).fadeIn("slow");
+            $('#condition-icon').attr('src', forecastDay[0].conditionIcon).fadeIn("slow");
+            $('#condition-text').text(forecastDay[0].conditionText).fadeIn("slow");
+
+            for (let i = 1; i < forecastDay.length; i++) {
+                $(`#location${i}, #date${i}, #temperature${i}, #wind${i}, #humidity${i}, #condition-icon${i}, #condition-text${i}`).hide();
+                $("#date" + i).text(forecastDay[i].date).fadeIn("slow");
+                $("#temperature" + i).text(forecastDay[0].avgTempC).fadeIn("slow");
+                $('#wind' + i).text(forecastDay[0].maxWindMpS).fadeIn("slow");
+                $('#humidity' + i).text(forecastDay[0].humidity).fadeIn("slow");
+                $('#condition-icon' + i).attr('src', forecastDay[0].conditionIcon).fadeIn("slow");
+                $('#condition-text' + i).text(forecastDay[0].conditionText).fadeIn("slow");
+            }
+        }
+    });
 }
 
 function callAjax(city) {

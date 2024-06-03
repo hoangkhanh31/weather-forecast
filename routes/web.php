@@ -7,6 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 #Weather
+Route::get('/weather-forecast', [WeatherController::class, 'index']);
 Route::get('/weather-forecast/{city}', [WeatherController::class, 'getWeatherForecast']);
 Route::get('/loadmore', [WeatherController::class, 'loadMore']);
