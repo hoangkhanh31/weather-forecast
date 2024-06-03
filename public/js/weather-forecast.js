@@ -85,8 +85,11 @@ function init() {
         type: "GET",
         dataType: "json",
         success: function (response) {
-            let data = response.data;
+            if (response.success === false) {
+                return;
+            }
 
+            let data = response.data;
             let forecastDay = data.customForecastDay;
             $("#location, #date, #temperature, #wind, #humidity, #condition-icon, #condition-text").hide();
             $("#location").text(data.locationName).fadeIn("slow");
@@ -116,13 +119,12 @@ function callAjax(city) {
         type: "GET",
         dataType: "json",
         success: function (response) {
-            let data = response.data;
-
             if (response.success === false) {
                 alert('City name is invalid !!!');
                 return;
             }
 
+            let data = response.data;
             let forecastDay = data.customForecastDay;
             $("#location, #date, #temperature, #wind, #humidity, #condition-icon, #condition-text").hide();
             $("#location").text(data.locationName).fadeIn("slow");
