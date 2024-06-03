@@ -1,6 +1,8 @@
 # Run project
 
 In the project directory, run:
+### `cp .env.example .env`
+### `php artisan migrate`
 ### `php artisan serve`
 
 Open [http://127.0.0.1:8000] in your browser
